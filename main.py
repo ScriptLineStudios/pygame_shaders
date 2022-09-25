@@ -1,15 +1,10 @@
 import pygame
 import pygame_shaders
-from OpenGL.GL import *
 
 pygame.init()
-pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
-pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
-pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK,
-                            pygame.GL_CONTEXT_PROFILE_CORE)
 
 screen = pygame.display.set_mode((600, 600), pygame.HWSURFACE | pygame.OPENGL | pygame.DOUBLEBUF)
-display = pygame.Surface((300, 300))
+display = pygame.Surface((100, 100))
 display.set_colorkey((0,0,0))
 clock = pygame.time.Clock()
 
@@ -23,8 +18,8 @@ running = True
 dt = 1.0
 
 while running:
+    pygame_shaders.clear()
     dt += .01
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     pygame.display.set_caption(f"{clock.get_fps()}")
     display.fill((0, 0, 0))
 
@@ -37,7 +32,8 @@ while running:
 
     bg_shader.send("time", [dt])
     bg_shader.send("resolution", [500.0, 500.0])
-    
+    bg_shader.send("alpha", [1])
+
     bg_shader.render()
     screen_shader.render(display)
 

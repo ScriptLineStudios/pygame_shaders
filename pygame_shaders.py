@@ -1,9 +1,14 @@
 import pygame
 
+import OpenGL
+OpenGL.USE_ACCELERATE = True
 from OpenGL.GL import *
 import texture
 import screen_rect
 import shader_utils
+
+def clear():
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 class Shader:
     def __init__(self, vertex_path, fragment_path):

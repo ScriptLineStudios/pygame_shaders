@@ -1,96 +1,57 @@
-#ifdef GL_ES
-precision mediump float;
-#endif
+#version 330
 
-// glslsandbox uniforms
+precision mediump float;
+
+uniform sampler2D texture;
+// uniform vec2 texelSize;
+
 uniform float time;
 uniform vec2 resolution;
+uniform float alpha;
 
-#define num_layers 16.
+varying vec3 pos;
+varying vec3 normal;
+varying vec4 tex_coord;
 
-mat2 rot(float a) {
+// Found this on GLSL sandbox. I really liked it, changed a few things and made it tileable.
+// :)
+// by David Hoskins.
 
-    float s=sin(a) , c=cos(a);
 
-    return mat2(c, -s, s, c);
-}
+// Water turbulence effect by joltz0r 2013-07-04, improved 2013-07-07
 
-float star(vec2 uv, float flare) {
 
-float d = length (uv);
+// Redefine below to see the tiling...
+#define SHOW_TILING
 
-	float m = .02 / d;
+#define TAU 6.28318530718
+#define MAX_ITER 5
 
-	float rays = max (0. , 1. -abs (uv.x * uv.y * 1000.));
-	m +=rays * flare;
-	uv *=rot(3.1415/4.);
-    rays = max (0. , 1. -abs (uv.x * uv.y * 1000.));
-	m +=rays*.3 * flare;
-    m *= smoothstep(1.,.2,d);
-    return m;
-
-}
-
-float hash (vec2 p) {
-
-    p = fract(p*vec2(123.34,456.567));
-    p += dot(p, p+45.32);
-    return fract(p.x * p.y);
-}
-
-vec3 starlayer (vec2 uv)
+void main()
 {
-vec3 col = vec3(0.0);
+    float time1 = time * .5+23.0;
+    // uv should be the 0-1 uv of texture...
+    vec2 uv = gl_FragCoord.xy / resolution.xy;
 
-    vec2 gv = fract(uv)-.5;
-    vec2 id = floor(uv);
-    for (int y=-1;y<=1;y++) {
-        for (int x=-1;x<=1;x++) {
-            vec2 offs = vec2(x,y);
-            float n = hash(id+offs); // random value
-            float size = fract(n*456.32);
+    #ifdef SHOW_TILING
+    vec2 p = mod(uv*TAU*2.0, TAU)-250.0;
+    #else
+    vec2 p = mod(uv*TAU, TAU)-250.0;
+    #endif
+    vec2 i = vec2(p);
+    float c = 1.0;
+    float inten = .005;
 
-            float star1 = star (gv-offs-vec2(n,fract (n*34.))+.5, smoothstep(.85,1.,size));
-
-            vec3 color = vec3(0.4,0.5,1.);	//sin(vec3(.2,.5,.9)*fract(n*4232.4)*6.28)*.5+.5;
-            //color = color * vec3(1.,1,1.);
-            star1 *= sin(time*2.+n*12.56)*.5+1.;
-		//color.b *= 0.5+sin(n*17.7)*0.5;
-            col+= star1*size*color;
-
-        }
-    }
-   return col;
-}
-
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-
-   // vec2 uv = (GL_FragCoord -.5 * resolution.xy) / resolution.y;
-    vec2 uv = (fragCoord -.5 * resolution.xy) / resolution.y;
-    //if (gv.x > .48 || gv.y > .48) col.r = 1.;
-
-    vec3 col = vec3 (0.);
-    float t = time*.021+time/100.;
-	uv *= rot(t);
-
-    for (float i=0.;i < 1.;i += 1./num_layers)
+    for (int n = 0; n < MAX_ITER; n++)
     {
-    float depth = fract(i+t);
-
-	    float minm = 0.5+sin(length(uv)*8.0+time)*0.5;
-	    minm = 20.0+(minm*5.0);
-
-    float scale = mix (minm, 1.5, depth);
-    float fade = depth*smoothstep (1.,.9,depth);;
-
-    col+= starlayer(uv*scale+i*347.9)*fade;
+        float t = time1 * (1.0 - (3.5 / float(n+1)));
+        i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+        c += 1.0/length(vec2(p.x / (sin(i.x+t)/inten),p.y / (cos(i.y+t)/inten)));
     }
+    c /= float(MAX_ITER);
+    c = 1.17-pow(c, 1.4);
+    vec3 colour = vec3(pow(abs(c), 8.0));
+    colour = clamp(colour + vec3(0.32, 0., 0.), 0.0, 1.0);
 
-    fragColor = vec4(col,1);
-}
-
-void main(void)
-{
-    mainImage(gl_FragColor, gl_FragCoord.xy);
+    gl_FragColor = vec4(colour, 1);
 }
