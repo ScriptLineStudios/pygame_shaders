@@ -1,5 +1,3 @@
-import pygame
-
 import OpenGL
 OpenGL.USE_ACCELERATE = True
 from OpenGL.GL import *
@@ -17,7 +15,6 @@ class Shader:
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         
-
         self.shader_data = {}
         self.shader = shader_utils.create_shader(vertex_path, fragment_path)
         
