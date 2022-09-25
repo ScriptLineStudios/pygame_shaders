@@ -1,6 +1,6 @@
-# pygame_shaders
+# Pygame Shaders
 
-## a library to easily intergrate shaders into your new or existing pygame projects
+## Easily intergrate shaders into your new or existing pygame projects
 
 This project allows for GLSL shaders to easily be intergrated with either your new or existing Pygame projects without having to touch OpenGL.
 
@@ -18,11 +18,13 @@ screen_shader = pygame_shaders.Shader("shaders/vertex.txt", "shaders/default_fra
 
 while True:
     pygame_shaders.clear()
-
+    
     #your pygame code
-
-    screen_shader.render(display) #Render the display onto the OpenGL display with the shader!
-
+    
+    screen_shader.render(display) #Render the display onto the OpenGL display with the shaders!
     pygame.display.flip()
-    clock.tick(60)
 ```
+
+# Getting Started
+
+Coming Soon!
