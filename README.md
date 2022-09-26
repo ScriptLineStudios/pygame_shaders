@@ -63,7 +63,7 @@ pygame_shaders.clear(color: Tuple[int])
 # Tutorial
 
 ## Installation
-Guide coming soon!
+To install pygame shaders. Simpily run ```pip install --upgrade pygame_shaders```
 
 ## Your First Shader
 Once you have pygame_shaders installed, creating a shader is simple:
