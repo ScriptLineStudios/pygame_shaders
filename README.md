@@ -46,3 +46,29 @@ Now that this display has been marked as an OpenGL display, we will no longer be
 ```python
 display = pygame.Surface((600, 600))
 ```
+
+Finally! Lets create our shader. For this tutorial our shader will simpily take our Surface we created above and render it to the OpenGL display. The vertex and fragment shader will look like this.
+
+```glsl
+#version 330 core
+
+layout (location=0) in vec3 vertexPos;
+layout (location=1) in vec3 vertexColor;
+layout (location=2) in vec2 vertexTexCoord;
+
+out vec3 fragmentColor;
+out vec2 fragmentTexCoord;
+
+void main()
+{
+    gl_Position = vec4(vertexPos, 1.0);
+    fragmentColor = vertexColor;
+    fragmentTexCoord = vertexTexCoord;
+}
+```
+
+
+```python
+shader = pygame_shaders.Shader(shader_size: Tuple[int], window_size: Tuple[int], position: Tuple[int], vertex_shader_path: str, fragment_shader_path: str)
+```
+
