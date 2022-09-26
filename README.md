@@ -49,12 +49,12 @@ display = pygame.Surface((600, 600))
 
 Finally! Lets create our shader. For this tutorial our shader will simpily take our Surface we created above and render it to the OpenGL display. The vertex and fragment shader will look like this.
 
+vertex.glsl:
 ```glsl
 #version 330 core
 
 layout (location=0) in vec3 vertexPos;
-layout (location=1) in vec3 vertexColor;
-layout (location=2) in vec2 vertexTexCoord;
+layout (location=1) in vec2 vertexTexCoord;
 
 out vec3 fragmentColor;
 out vec2 fragmentTexCoord;
@@ -67,8 +67,44 @@ void main()
 }
 ```
 
+fragment.glsl:
+```glsl
+#version 330 core
+
+in vec3 fragmentColor;
+in vec2 fragmentTexCoord;
+
+out vec4 color;
+
+uniform sampler2D imageTexture;
+
+void main() {
+    color = texture(imageTexture, fragmentTexCoord);
+}
+```
+
+Note: All vertex shaders require ```layout (location=0) in vec3 vertexPos;``` and ```layout (location=1) in vec3 vertexTexCoord;``` if you would like to access texture coordinates.
+
+Now lets create our Pygame shader! Ill give it a size the same as our display (600, 600) and a position of (0, 0) Note: (0, 0) in a shader = middle of the screen.
 
 ```python
-shader = pygame_shaders.Shader(shader_size: Tuple[int], window_size: Tuple[int], position: Tuple[int], vertex_shader_path: str, fragment_shader_path: str)
+shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "vertex.glsl", "fragment.glsl")
 ```
+
+Congrats! You have created your first shader using pygame_shaders!
+
+## Using the shader
+
+Now that you have created your shader. Its time to use it. Right now our code looks something like this:
+```python
+import pygame
+import pygame_shaders
+
+screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF | pygame.HWSURFACE)
+display = pygame.Surface((600, 600))
+shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "vertex.glsl", "fragment.glsl")
+```
+
+This is all the setup the shader requires. Now you can continue with your Pygame project as normal. The only thin
+
 
