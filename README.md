@@ -10,18 +10,21 @@ import pygame_shaders
 
 pygame.init()
 
-screen = pygame.display.set_mode((600, 600), pygame.HWSURFACE | pygame.OPENGL | pygame.DOUBLEBUF) #Create the main Python display
-display = pygame.Surface((100, 100)) #Create a pygame surface, this is where you will do all your pygame rendering 
-display.set_colorkey((0,0,0))
+screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF | pygame.HWSURFACE) #Create an opengl renderable display.
+display = pygame.Surface((600, 600)) #Create a new surface, this will be where you do all your pygame rendering
+display.set_colorkey((0, 0, 0)) #Make all black on the display transparent
 
-screen_shader = pygame_shaders.Shader("shaders/vertex.txt", "shaders/default_frag.txt")
+shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/default_frag.txt") #Load your shader!
 
 while True:
-    pygame_shaders.clear()
+    pygame_shaders.clear((100, 100, 100)) #Fill with the color you would like in the background
+    display.fill((0, 0, 0)) #Fill with the color you set in the colorkey
     
-    #your pygame code
+    #Your pygame code here.
+            
+    pygame.draw.rect(display, (255, 0, 0), (20, 20, 20, 20)) #Draw a red rectangle to the display at (20, 20)
     
-    screen_shader.render(display) #Render the display onto the OpenGL display with the shaders!
+    shader.render(display) #Render the display onto the OpenGL display with the shaders!
     pygame.display.flip()
 ```
 
