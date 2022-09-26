@@ -1,7 +1,7 @@
 [project]
 name = "pygame_shaders"
 description = "a library to easily intergrate shaders into your new or existing pygame projects "
-version = "1.0.5"
+version = "1.0.6"
 authors = [
     {name = "ScriptLine Studios", email = "scriptlinestudio@protonmail.com"}
 ]
