@@ -25,7 +25,7 @@ while True:
     pygame.display.flip()
 ```
 
-# Getting Started
+# Tutorial
 
 ## Installation
 Guide coming soon!
@@ -45,6 +45,12 @@ Now that this display has been marked as an OpenGL display, we will no longer be
 
 ```python
 display = pygame.Surface((600, 600))
+```
+
+Note: When using pygame_shaders. Its good practice to set a transparent color for the surface so we can apply a background shader later. To do this I will set the color key to black.
+
+```python
+display.set_colorkey((0, 0, 0))
 ```
 
 Finally! Lets create our shader. For this tutorial our shader will simpily take our Surface we created above and render it to the OpenGL display. The vertex and fragment shader will look like this.
@@ -102,9 +108,39 @@ import pygame_shaders
 
 screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF | pygame.HWSURFACE)
 display = pygame.Surface((600, 600))
+display.set_colorkey((0, 0, 0))
+
 shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "vertex.glsl", "fragment.glsl")
 ```
 
-This is all the setup the shader requires. Now you can continue with your Pygame project as normal. The only thin
+This is all the setup the shader requires. Now you can continue with your Pygame project as normal. With the exception of a few things. A typical project using pygame_shaders looks like this:
+
+```python
+import pygame
+import pygame_shaders
+
+pygame.init()
+
+screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF | pygame.HWSURFACE)
+display = pygame.Surface((600, 600))
+display.set_colorkey((0, 0, 0))
+
+shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/default_frag.txt")
+
+while True:
+    pygame_shaders.clear((100, 100, 100)) #Fill with the color you would like in the background
+    display.fill((0, 0, 0)) #Fill with the color you set in the colorkey
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            
+    pygame.draw.rect(display, (255, 0, 0), (20, 20, 20, 20)) #Draw a red rectangle to the display at (20, 20)
+    
+    shader.render(display) #Render the display onto the OpenGL display with the shaders!
+    pygame.display.flip()
+```
+
+Congratulations! You have created your first shader using pygame_shaders!
 
 
