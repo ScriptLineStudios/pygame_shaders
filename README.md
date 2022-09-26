@@ -14,7 +14,9 @@ screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF | 
 display = pygame.Surface((600, 600)) #Create a new surface, this will be where you do all your pygame rendering
 display.set_colorkey((0, 0, 0)) #Make all black on the display transparent
 
-shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/default_frag.txt") #Load your shader!
+shader = pygame_shaders.Shader(size=(600, 600), display=(600, 600), 
+                        pos=(0, 0), vertex_path="shaders/vertex.txt", 
+                        fragment_path="shaders/default_frag.txt") #Load your shader!
 
 while True:
     pygame_shaders.clear((100, 100, 100)) #Fill with the color you would like in the background
@@ -127,7 +129,9 @@ Note: All vertex shaders require ```layout (location=0) in vec3 vertexPos;``` an
 Now lets create our Pygame shader! Ill give it a size the same as our display (600, 600) and a position of (0, 0) Note: (0, 0) in a shader = middle of the screen.
 
 ```python
-shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "vertex.glsl", "fragment.glsl")
+shader = pygame_shaders.Shader(size=(600, 600), display=(600, 600), 
+                        pos=(0, 0), vertex_path="shaders/vertex.txt", 
+                        fragment_path="shaders/default_frag.txt")
 ```
 
 Congrats! You have created your first shader using pygame_shaders!
@@ -143,7 +147,9 @@ screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF | 
 display = pygame.Surface((600, 600))
 display.set_colorkey((0, 0, 0))
 
-shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "vertex.glsl", "fragment.glsl")
+shader = pygame_shaders.Shader(size=(600, 600), display=(600, 600), 
+                        pos=(0, 0), vertex_path="shaders/vertex.txt", 
+                        fragment_path="shaders/default_frag.txt")
 ```
 
 This is all the setup the shader requires. Now you can continue with your Pygame project as normal. With the exception of a few things. A typical project using pygame_shaders looks like this:
@@ -158,7 +164,9 @@ screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF | 
 display = pygame.Surface((600, 600))
 display.set_colorkey((0, 0, 0))
 
-shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/default_frag.txt")
+shader = pygame_shaders.Shader(size=(600, 600), display=(600, 600), 
+                        pos=(0, 0), vertex_path="shaders/vertex.txt", 
+                        fragment_path="shaders/default_frag.txt")
 
 while True:
     pygame_shaders.clear((100, 100, 100)) #Fill with the color you would like in the background
