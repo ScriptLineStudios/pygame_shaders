@@ -3,15 +3,23 @@ from OpenGL.GL import *
 import ctypes
 
 class ScreenRect:
-    def __init__(self):
-        self.vertices = (
-            -1.0,  1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0,
-             1.0,  1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0,
-            -1.0, -1.0, 0.0,1.0, 0.0, 0.0, 0.0, 0.0,
+    def __init__(self, size, win_size, offset):
+        self.size = size
+        offset = (offset[0]/win_size[0], offset[1]/win_size[1])
 
-           -1.0, -1.0, 0.0,1.0, 0.0, 0.0, 0.0, 0.0,
-           1.0,  1.0, 0.0,1.0, 0.0, 0.0, 1.0, 1.0,
-           1.0, -1.0, 0.0,1.0, 0.0, 0.0, 1.0, 0.0,
+        self.current_w, self.current_h = win_size
+        
+        x = self.size[0] / self.current_w
+        y = self.size[1] / self.current_h
+
+        self.vertices = (
+            -x + offset[0],  y + offset[1],    0.0, 1.0, 0.0, 0.0,    0.0, 1.0,
+             x + offset[0],  y + offset[1],    0.0, 1.0, 0.0, 0.0,    1.0, 1.0,
+            -x + offset[0], -y + offset[1],    0.0,1.0, 0.0, 0.0,     0.0, 0.0,
+
+           -x + offset[0], -y + offset[1],     0.0,1.0, 0.0, 0.0,      0.0, 0.0,
+           x + offset[0],  y + offset[1],      0.0,1.0, 0.0, 0.0,       1.0, 1.0,
+           x + offset[0], -y + offset[1],      0.0,1.0, 0.0, 0.0,       1.0, 0.0,
         )
 
         self.vertices = np.array(self.vertices, dtype=np.float32)

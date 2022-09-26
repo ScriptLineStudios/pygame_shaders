@@ -1,11 +1,11 @@
 from OpenGL.GL import *
 from OpenGL.GL.shaders import compileProgram,compileShader
 
-def create_shader(vertexFilepath, fragmentFilepath):
-    with open(vertexFilepath,'r') as f:
+def create_shader(vertex_filepath, fragment_filepath):
+    with open(vertex_filepath,'r') as f:
         vertex_src = f.readlines()
 
-    with open(fragmentFilepath,'r') as f:
+    with open(fragment_filepath,'r') as f:
         fragment_src = f.readlines()
     
     shader = compileProgram(compileShader(vertex_src, GL_VERTEX_SHADER),

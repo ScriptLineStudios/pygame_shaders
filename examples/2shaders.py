@@ -8,14 +8,13 @@ display = pygame.Surface((100, 100))
 display.set_colorkey((0,0,0))
 clock = pygame.time.Clock()
 
-bg_shader = pygame_shaders.Shader("shaders/vertex.txt", "shaders/fragment.txt")
-screen_shader = pygame_shaders.Shader("shaders/vertex.txt", "shaders/default_frag.txt")
-
-image = pygame.image.load("grass_0.png")
-image.set_colorkey((0,0,0))
+bg_shader = pygame_shaders.Shader((200, 100), (600, 600), (200, 0), "shaders/vertex.txt", "shaders/fragment.txt")
+screen_shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/default_frag.txt")
 
 running = True
 dt = 1.0
+
+x, y = 10, 10
 
 while running:
     pygame_shaders.clear()
@@ -28,7 +27,11 @@ while running:
             pygame.quit()
             running = False
 
-    display.blit(image, (10, 10))
+
+    x += pygame.key.get_pressed()[pygame.K_d]
+    x -= pygame.key.get_pressed()[pygame.K_a]
+
+    pygame.draw.rect(display, (0, 0, 255), (x, y, 10, 10))
 
     bg_shader.send("time", [dt])
     bg_shader.send("resolution", [500.0, 500.0])

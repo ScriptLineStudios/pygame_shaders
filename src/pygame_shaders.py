@@ -9,8 +9,8 @@ def clear():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 class Shader:
-    def __init__(self, vertex_path, fragment_path):
-        self.render_rect = screen_rect.ScreenRect()
+    def __init__(self, size, display, pos, vertex_path, fragment_path):
+        self.render_rect = screen_rect.ScreenRect(size, display, pos)
 
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -18,7 +18,6 @@ class Shader:
         self.shader_data = {}
         self.shader = shader_utils.create_shader(vertex_path, fragment_path)
         
-
     def send(self, name, data):
         if name in self.shader_data:
             if [float(x) for x in data] == self.shader_data[name]:
