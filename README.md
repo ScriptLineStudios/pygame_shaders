@@ -25,6 +25,28 @@ while True:
     pygame.display.flip()
 ```
 
+# Overview
+
+```pygame_shaders.Shader``` -> Initializes a new shader.
+```python
+pygame_shaders.Shader(shader_size: Tuple[int], window_size: Tuple[int], position: Tuple[int], vertex_shader_path: str, fragment_shader_path: str)
+```
+
+```pygame_shaders.Shader.render``` -> Renders a shader to the display. If a surface is passed the shader will be rendered onto that Surface before being rendered onto the main display.
+```python
+pygame_shaders.Shader.render(surface: Optional[pygame.Surface])
+```
+
+```pygame_shaders.Shader.send``` -> Allows for uniforms to be passed to a shader.
+```python
+pygame_shaders.Shader.send(variable_name: str, data: List[float])
+```
+
+```pygame_shaders.clear``` -> Clears the display with a color.
+```python
+pygame_shaders.clear(color: Tuple[int])
+```
+
 # Tutorial
 
 ## Installation
