@@ -27,4 +27,12 @@ while True:
 
 # Getting Started
 
-Coming Soon!
+## Installation
+Guide coming soon!
+
+## Your First Shader
+Once you have pygame_shaders installed, creating a shader is simple:
+```python
+shader = pygame_shaders.Shader(shader_size: Tuple[int], window_size: Tuple[int], position: Tuple[int], vertex_shader_path: str, fragment_shader_path: str)
+```
+
