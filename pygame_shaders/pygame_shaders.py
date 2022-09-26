@@ -1,11 +1,12 @@
 import OpenGL
 OpenGL.USE_ACCELERATE = True
 from OpenGL.GL import *
-import texture
-import screen_rect
-import shader_utils
+import pygame_shaders.texture as texture
+import pygame_shaders.screen_rect as screen_rect
+import pygame_shaders.shader_utils as shader_utils
 
-def clear():
+def clear(color):
+    glClearColor(color[0]/255, color[1]/255, color[2]/255, 1)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 class Shader:

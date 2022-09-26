@@ -1,7 +1,0 @@
-README.md
-setup.py
-src/pygame_shaders.py
-src/pygame_shaders.egg-info/PKG-INFO
-src/pygame_shaders.egg-info/SOURCES.txt
-src/pygame_shaders.egg-info/dependency_links.txt
-src/pygame_shaders.egg-info/top_level.txt
