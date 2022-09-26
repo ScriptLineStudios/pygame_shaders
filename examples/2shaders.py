@@ -17,7 +17,7 @@ dt = 1.0
 x, y = 10, 10
 
 while running:
-    pygame_shaders.clear()
+    pygame_shaders.clear((100, 100, 100))
     dt += .01
     pygame.display.set_caption(f"{clock.get_fps()}")
     display.fill((0, 0, 0))
