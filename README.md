@@ -1,6 +1,5 @@
 # Pygame Shaders
 [![wakatime](https://wakatime.com/badge/github/ScriptLineStudios/pygame_shaders.svg)](https://wakatime.com/badge/github/ScriptLineStudios/pygame_shaders)
-[![wakatime](https://wakatime.com/badge/user/6f0897b3-710d-414d-88d4-cc1e3a2201ea/project/a8660a3b-c4b2-4396-928e-1f3265ac9f54.svg)](https://wakatime.com/badge/user/6f0897b3-710d-414d-88d4-cc1e3a2201ea/project/a8660a3b-c4b2-4396-928e-1f3265ac9f54)
 
 ## Easily intergrate shaders into your new or existing pygame projects
 
