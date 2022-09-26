@@ -1,5 +1,7 @@
 # Pygame Shaders
 [![wakatime](https://wakatime.com/badge/github/ScriptLineStudios/pygame_shaders.svg)](https://wakatime.com/badge/github/ScriptLineStudios/pygame_shaders)
+![GitHub repo file count](https://img.shields.io/github/directory-file-count/ScriptLineStudios/pygame_shaders)
+![Lines of code](https://img.shields.io/tokei/lines/github/ScriptLineStudios/pygame_shaders)
 
 ## Easily intergrate shaders into your new or existing pygame projects
 
