@@ -152,7 +152,18 @@ shader = pygame_shaders.Shader(size=(600, 600), display=(600, 600),
                         fragment_path="shaders/default_frag.txt")
 ```
 
-This is all the setup the shader requires. Now you can continue with your Pygame project as normal. With the exception of a few things. A typical project using pygame_shaders looks like this:
+This is all the setup the shader requires. Now you can continue with your Pygame project as normal. With the exception of a few things. 
+
+First things first, at the top of your games main loop add ```pygame,shaders.clear(BG_COLOR)``` this will clear the display with your color of choice. Lets go with (100, 100, 100)
+```python
+pygame_shaders.clear((100, 100, 100))
+```
+
+From here you can go on as normal. Using pygames usual rendering functions. Just remember to blit to the pygame.Surface and not the OpenGL display.
+
+Finally, when updating the display remeber to add ```shader.render(display)``` this will take the display surface and render it to the OpenGL display we created earlier. Remember, this will apply the shader (vertex.glsl and fragment.glsl) you wrote above. 
+
+Putting everything together looks like this:
 
 ```python
 import pygame
