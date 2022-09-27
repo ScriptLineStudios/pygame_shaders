@@ -7,7 +7,7 @@
 ![PyPI](https://img.shields.io/pypi/v/pygame_shaders)
 ![PyPI - Format](https://img.shields.io/pypi/format/pygame_shaders)
 
-## Easily intergrate shaders into your new or existing pygame projects
+## Easily integrate shaders into your new or existing pygame projects
 
 This project allows for GLSL shaders to easily be intergrated with either your new or existing Pygame projects without having to touch OpenGL.
 
