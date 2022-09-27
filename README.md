@@ -1,11 +1,11 @@
 # Pygame Shaders
 [![wakatime](https://wakatime.com/badge/github/ScriptLineStudios/pygame_shaders.svg)](https://wakatime.com/badge/github/ScriptLineStudios/pygame_shaders)
-![GitHub repo file count](https://img.shields.io/github/directory-file-count/ScriptLineStudios/pygame_shaders)
 ![Lines of code](https://img.shields.io/tokei/lines/github/ScriptLineStudios/pygame_shaders)
 
 [![Downloads](https://pepy.tech/badge/pygame-shaders)](https://pepy.tech/project/pygame-shaders)
 ![PyPI](https://img.shields.io/pypi/v/pygame_shaders)
 ![PyPI - Format](https://img.shields.io/pypi/format/pygame_shaders)
+[![Downloads](https://pepy.tech/badge/pygame-shaders/month)](https://pepy.tech/project/pygame-shaders)
 
 ## Easily integrate shaders into your new or existing pygame projects
 
