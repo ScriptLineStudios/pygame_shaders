@@ -13,13 +13,13 @@ class ScreenRect:
         y = self.size[1] / self.current_h
 
         self.vertices = (
-            -x + offset[0],  y + offset[1],        0.0, 1.0,
-             x + offset[0],  y + offset[1],        1.0, 1.0,
-            -x + offset[0], -y + offset[1],        0.0, 0.0,
+            -x + offset[0],  y + offset[1],    0.0, 1.0, 0.0, 0.0,    0.0, 1.0,
+             x + offset[0],  y + offset[1],    0.0, 1.0, 0.0, 0.0,    1.0, 1.0,
+            -x + offset[0], -y + offset[1],    0.0,1.0, 0.0, 0.0,     0.0, 0.0,
 
-           -x + offset[0], -y + offset[1],         0.0, 0.0,
-           x + offset[0],  y + offset[1],          1.0, 1.0,
-           x + offset[0], -y + offset[1],          1.0, 0.0,
+           -x + offset[0], -y + offset[1],     0.0,1.0, 0.0, 0.0,      0.0, 0.0,
+           x + offset[0],  y + offset[1],      0.0,1.0, 0.0, 0.0,       1.0, 1.0,
+           x + offset[0], -y + offset[1],      0.0,1.0, 0.0, 0.0,       1.0, 0.0,
         )
 
         self.vertices = np.array(self.vertices, dtype=np.float32)
@@ -34,6 +34,6 @@ class ScreenRect:
 
         glEnableVertexAttribArray(0)
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, ctypes.c_void_p(0))
-        
+
         glEnableVertexAttribArray(1)
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 32, ctypes.c_void_p(24))
