@@ -31,6 +31,7 @@ class Shader:
             screen_texture.use()
 
         glUseProgram(self.shader)
+
         for key in self.shader_data.keys():
             data = self.shader_data[key]
             loc = glGetUniformLocation(self.shader, key)
