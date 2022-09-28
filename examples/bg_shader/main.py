@@ -37,8 +37,8 @@ while running:
     bg_shader.send("resolution", [500.0, 500.0])
     bg_shader.send("alpha", [1])
 
-    bg_shader.render()
+    bg_shader.render(display)
     screen_shader.render(display)
 
     pygame.display.flip()
-    clock.tick()
+    clock.tick(60)
