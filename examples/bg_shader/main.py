@@ -8,19 +8,20 @@ display = pygame.Surface((100, 100))
 display.set_colorkey((0,0,0))
 clock = pygame.time.Clock()
 
-bg_shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/fragment.txt")
-screen_shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/default_frag.txt")
+bg_shader = pygame_shaders.Shader((400, 400), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/fragment.txt")
+screen_shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/default_vertex.txt", "shaders/default_frag.txt")
 
 running = True
 dt = 1.0
 
 x, y = 10, 10
 
+
 while running:
     pygame_shaders.clear((100, 100, 100))
+    display.fill((0, 0, 0))
     dt += .01
     pygame.display.set_caption(f"{clock.get_fps()}")
-    display.fill((0, 0, 0))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

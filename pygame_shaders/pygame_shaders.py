@@ -1,23 +1,27 @@
-import OpenGL
-OpenGL.USE_ACCELERATE = True
-from OpenGL.GL import *
 import pygame_shaders.texture as texture
 import pygame_shaders.screen_rect as screen_rect
 import pygame_shaders.shader_utils as shader_utils
 
+import moderngl
+
+ctx = None
+
 def clear(color):
-    glClearColor(color[0]/255, color[1]/255, color[2]/255, 1)
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    ctx.clear(color=(color[0]/255, color[1]/255, color[2]/255))
 
 class Shader:
     def __init__(self, size, display, pos, vertex_path, fragment_path):
-        self.render_rect = screen_rect.ScreenRect(size, display, pos)
+        global ctx
+        if ctx is None:
+            ctx = moderngl.create_context()
 
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        self.ctx = ctx
+        ctx.enable(moderngl.BLEND)
+        ctx.blend_func = ctx.SRC_ALPHA, ctx.ONE_MINUS_SRC_ALPHA
         
         self.shader_data = {}
-        self.shader = shader_utils.create_shader(vertex_path, fragment_path)
+        self.shader = shader_utils.create_shader(vertex_path, fragment_path, self.ctx)
+        self.render_rect = screen_rect.ScreenRect(size, display, pos, self.ctx, self.shader)
         
     def send(self, name, data):
         if name in self.shader_data:
@@ -27,18 +31,15 @@ class Shader:
 
     def render(self, surface=None):
         if surface is not None:
-            screen_texture = texture.Texture(surface)
+            screen_texture = texture.Texture(surface, self.ctx)
             screen_texture.use()
-
-        glUseProgram(self.shader)
 
         for key in self.shader_data.keys():
             data = self.shader_data[key]
-            loc = glGetUniformLocation(self.shader, key)
             if len(data) == 1:
-                glUniform1f(loc, data[0]) 
-            elif len(data) == 2:
-                glUniform2f(loc, data[0], data[1])
+                self.shader[key].value = data[0]
 
-        glBindVertexArray(self.render_rect.vao)
-        glDrawArrays(GL_TRIANGLES, 0, self.render_rect.vertex_count)
+            elif len(data) == 2:
+                self.shader[key].value = (data[0], data[1])
+
+        self.render_rect.vao.render()

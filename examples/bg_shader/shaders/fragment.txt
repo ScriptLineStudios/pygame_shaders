@@ -5,19 +5,15 @@ precision mediump float;
 uniform sampler2D texture;
 // uniform vec2 texelSize;
 
-uniform float time;
-uniform vec2 resolution;
-uniform float alpha;
+uniform float time = 0;
+uniform vec2 resolution = vec2(0, 0);
+uniform float alpha = 0;
 
-varying vec3 pos;
-varying vec3 normal;
-varying vec4 tex_coord;
 
 // Found this on GLSL sandbox. I really liked it, changed a few things and made it tileable.
 // :)
 // by David Hoskins.
-
-
+            
 // Water turbulence effect by joltz0r 2013-07-04, improved 2013-07-07
 
 

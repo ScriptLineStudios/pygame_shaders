@@ -1,9 +1,10 @@
 import numpy as np
 from OpenGL.GL import *
 import ctypes
+import moderngl
 
 class ScreenRect:
-    def __init__(self, size, win_size, offset):
+    def __init__(self, size, win_size, offset, ctx, program):
         self.size = size
         offset = (offset[0]/win_size[0], offset[1]/win_size[1])
 
@@ -12,28 +13,41 @@ class ScreenRect:
         x = self.size[0] / self.current_w
         y = self.size[1] / self.current_h
 
-        self.vertices = (
-            -x + offset[0],  y + offset[1],    0.0, 1.0, 0.0, 0.0,    0.0, 1.0,
-             x + offset[0],  y + offset[1],    0.0, 1.0, 0.0, 0.0,    1.0, 1.0,
-            -x + offset[0], -y + offset[1],    0.0,1.0, 0.0, 0.0,     0.0, 0.0,
+        self.vertices = [
+            (-x + offset[0],  y + offset[1]),
+             (x + offset[0],  y + offset[1]),
+            (-x + offset[0], -y + offset[1]),
 
-           -x + offset[0], -y + offset[1],     0.0,1.0, 0.0, 0.0,      0.0, 0.0,
-           x + offset[0],  y + offset[1],      0.0,1.0, 0.0, 0.0,       1.0, 1.0,
-           x + offset[0], -y + offset[1],      0.0,1.0, 0.0, 0.0,       1.0, 0.0,
-        )
+           (-x + offset[0], -y + offset[1]),
+           (x + offset[0],  y + offset[1]),
+           (x + offset[0], -y + offset[1]),
+        ]
+        self.tex_coords = [
+           (0.0, 1.0),
+           (1.0, 1.0),
+           (0.0, 0.0),
+
+           (0.0, 0.0),
+           (1.0, 1.0),
+           (1.0, 0.0),
+        ]
 
         self.vertices = np.array(self.vertices, dtype=np.float32)
+        self.tex_coords = np.array(self.tex_coords, dtype=np.float32)
+        self.data = np.hstack([self.vertices, self.tex_coords])
 
         self.vertex_count = 6
 
-        self.vao = glGenVertexArrays(1)
-        glBindVertexArray(self.vao)
-        self.vbo = glGenBuffers(1)
-        glBindBuffer(GL_ARRAY_BUFFER, self.vbo)
-        glBufferData(GL_ARRAY_BUFFER, self.vertices.nbytes, self.vertices, GL_STATIC_DRAW)
+        self.vbo = ctx.buffer(self.data)
 
-        glEnableVertexAttribArray(0)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 32, ctypes.c_void_p(0))
+        try:
+            self.vao = ctx.vertex_array(program, [
+                (self.vbo, '2f 2f', 'vertexPos', 'vertexTexCoord'),
+            ])
+        except moderngl.error.Error:
+            self.vbo = ctx.buffer(self.vertices)
+            self.vao = ctx.vertex_array(program, [
+                (self.vbo, '2f', 'vertexPos'),
+            ])
 
-        glEnableVertexAttribArray(1)
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 32, ctypes.c_void_p(24))
+        self.program = program

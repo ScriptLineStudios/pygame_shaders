@@ -12,6 +12,8 @@ shader = pygame_shaders.Shader(size=(600, 600), display=(600, 600),
                         pos=(0, 0), vertex_path="shaders/vertex.txt", 
                         fragment_path="shaders/default_frag.txt")
 
+clock = pygame.time.Clock()
+
 while True:
     pygame_shaders.clear((100, 100, 100)) #Fill with the color you would like in the background
     display.fill((0, 0, 0)) #Fill with the color you set in the colorkey
@@ -24,3 +26,4 @@ while True:
     
     shader.render(display) #Render the display onto the OpenGL display with the shaders!
     pygame.display.flip()
+    clock.tick(60)
