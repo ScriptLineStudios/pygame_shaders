@@ -1,6 +1,4 @@
 import numpy as np
-from OpenGL.GL import *
-import ctypes
 import moderngl
 
 class ScreenRect:
