@@ -3,6 +3,7 @@ import pygame_shaders.screen_rect as screen_rect
 import pygame_shaders.shader_utils as shader_utils
 
 import moderngl
+import pygame
 
 ctx = None
 
@@ -10,7 +11,7 @@ def clear(color):
     ctx.clear(color=(color[0]/255, color[1]/255, color[2]/255))
 
 class Shader:
-    def __init__(self, size, display, pos, vertex_path, fragment_path):
+    def __init__(self, size, display, pos, vertex_path, fragment_path, target_texture=None):
         global ctx
         if ctx is None:
             ctx = moderngl.create_context()
@@ -22,6 +23,10 @@ class Shader:
         self.shader_data = {}
         self.shader = shader_utils.create_shader(vertex_path, fragment_path, self.ctx)
         self.render_rect = screen_rect.ScreenRect(size, display, pos, self.ctx, self.shader)
+
+        if target_texture is not None:
+            s = pygame.Surface(target_texture.get_size())
+            self.screen_texture = texture.Texture(s, self.ctx)
         
     def send(self, name, data):
         if name in self.shader_data:
@@ -31,8 +36,8 @@ class Shader:
 
     def render(self, surface=None):
         if surface is not None:
-            screen_texture = texture.Texture(surface, self.ctx)
-            screen_texture.use()
+            self.screen_texture.update(surface)
+            self.screen_texture.use()
 
         for key in self.shader_data.keys():
             data = self.shader_data[key]

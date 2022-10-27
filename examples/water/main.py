@@ -10,11 +10,8 @@ display = pygame.Surface((100, 100))
 display.set_colorkey((0, 0, 0))
 clock = pygame.time.Clock()
 
-bg_shader = pygame_shaders.Shader(
-    (400, 400), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/fragment.txt"
-)
 screen_shader = pygame_shaders.Shader(
-    (600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/default_frag.txt"
+    (600, 600), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/default_frag.txt", display
 )
 
 running = True
@@ -24,6 +21,9 @@ x, y = 10, 10
 pygame.display.set_caption(f"Shaders!")
 
 img = pygame.image.load("assets/water.png").convert_alpha()
+bg_shader = pygame_shaders.Shader(
+    (400, 400), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/fragment.txt", img
+)
 
 
 while running:
@@ -52,4 +52,4 @@ while running:
     screen_shader.render(display)
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick()

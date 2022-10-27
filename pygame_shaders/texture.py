@@ -10,8 +10,14 @@ class Texture:
         image_width,image_height = image.get_rect().size
         img_data = pygame.image.tostring(image,'RGBA')
         self.texture = ctx.texture(size=image.get_size(), components=4, data=img_data)
-
         self.texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
+
+    def update(self, image):
+        image = pygame.transform.flip(image, False, True)
+        image_width,image_height = image.get_rect().size
+        img_data = pygame.image.tostring(image,'RGBA')
+
+        self.texture.write(img_data)
 
     def use(self):
         self.texture.use()
