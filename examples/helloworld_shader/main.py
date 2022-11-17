@@ -10,7 +10,7 @@ display.set_colorkey((0, 0, 0))
 
 shader = pygame_shaders.Shader(size=(600, 600), display=(600, 600), 
                         pos=(0, 0), vertex_path="shaders/vertex.txt", 
-                        fragment_path="shaders/default_frag.txt")
+                        fragment_path="shaders/default_frag.txt", target_texture=display)
 
 clock = pygame.time.Clock()
 

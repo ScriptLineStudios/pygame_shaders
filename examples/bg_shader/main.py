@@ -8,8 +8,8 @@ display = pygame.Surface((100, 100))
 display.set_colorkey((0,0,0))
 clock = pygame.time.Clock()
 
-bg_shader = pygame_shaders.Shader((400, 400), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/fragment.txt")
-screen_shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/default_vertex.txt", "shaders/default_frag.txt")
+bg_shader = pygame_shaders.Shader((400, 400), (600, 600), (0, 0), "shaders/vertex.txt", "shaders/fragment.txt", display)
+screen_shader = pygame_shaders.Shader((600, 600), (600, 600), (0, 0), "shaders/default_vertex.txt", "shaders/default_frag.txt", display)
 
 running = True
 dt = 1.0
