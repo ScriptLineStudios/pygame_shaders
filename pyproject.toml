@@ -7,7 +7,6 @@ authors = [
 ]
 dependencies = [
     "numpy",
-    "pygame",
     "PyOpenGL",
 ]
 [build-system]
