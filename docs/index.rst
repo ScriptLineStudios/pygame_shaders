@@ -27,6 +27,7 @@ Installation
    :caption: Table of contents:
 
    quick_start
+   writing_shaders
    screen_shaders
    surface_shaders
    modules
