@@ -1,16 +1,22 @@
 import numpy as np
 import moderngl
+import pygame
 
 class ScreenRect:
+    @staticmethod 
+    def pygame_rect_to_screen_rect(rect: pygame.Rect, target_surface: pygame.Surface) -> pygame.Rect:
+        w = target_surface.get_width()
+        h = target_surface.get_height()
+
+        return pygame.Rect(((rect.x*2) - w) + rect.w, ((rect.y*2) + h) - rect.h, rect.w, rect.h)        
+
     def __init__(self, size, win_size, offset, ctx, program):
         self.size = size
         offset = (offset[0]/win_size[0], offset[1]/win_size[1])
-
         self.current_w, self.current_h = win_size
         
         x = self.size[0] / self.current_w
         y = self.size[1] / self.current_h
-
         self.vertices = [
             (-x + offset[0],  y + offset[1]),
              (x + offset[0],  y + offset[1]),

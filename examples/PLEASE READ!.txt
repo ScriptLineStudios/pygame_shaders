@@ -1,2 +1,0 @@
-The shaders in these examples were not written by me. 
-They can be found here - https://glslsandbox.com/

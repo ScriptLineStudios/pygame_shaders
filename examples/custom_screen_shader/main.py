@@ -13,17 +13,11 @@ screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF)
 display = pygame.Surface((600, 600))
 
 #The shader we are using to communicate with the opengl context (standard pygame drawing functionality does not work on opengl displays)
-screen_shader = pygame_shaders.DefaultScreenShader(display) # <- Here we supply our default display, it's this display which will be displayed onto the opengl context via the screen_shader
-
-#create our target surface
-target_surface = pygame.Surface((200, 200))
-target_surface.blit(pygame.image.load("../../docs/assets/pfp.png"), (0, 0))
-
-shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, "default_frag.glsl", target_surface) #<- give it to our shader
+screen_shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, "screen_frag.glsl", display) # <- Here we supply our default display, it's this display which will be displayed onto the opengl context via the screen_shader
 
 while True:
     #Fill the display with white
-    display.fill((255, 255, 255))
+    display.fill((40, 60, 100))
     
     #Standard pygame event stuff
     for event in pygame.event.get():
@@ -33,14 +27,8 @@ while True:
     #Render a rect onto the display using the standard pygame method for drawing rects.
     pygame.draw.rect(display, (255, 0, 0), (200, 200, 20, 20))
     
-    #Render the shader onto the surface object
-    target_shader = shader.render() 
-
-    #Blit the new (shader applied!) surface onto the display
-    display.blit(target_shader, (0, 0))
-
     #Render the contents of "display" (main surface) onto the opengl screen.
-    screen_shader.render() 
+    screen_shader.render_direct(pygame.Rect(0, 0, 600, 600)) 
 
     #Update the opengl context
     pygame.display.flip()

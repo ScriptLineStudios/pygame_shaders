@@ -1,1 +1,6 @@
-from pygame_shaders.pygame_shaders import Shader, clear
+from pygame_shaders.pygame_shaders import Shader
+from pygame_shaders.pygame_shaders import DefaultScreenShader
+from pygame_shaders.pygame_shaders import ComputeShader
+from pygame_shaders.pygame_shaders import DEFAULT_FRAGMENT_SHADER
+from pygame_shaders.pygame_shaders import DEFAULT_VERTEX_SHADER
+from pygame_shaders.texture import Texture

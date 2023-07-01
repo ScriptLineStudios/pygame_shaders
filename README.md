@@ -17,58 +17,39 @@ import pygame_shaders
 
 pygame.init()
 
-screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF | pygame.HWSURFACE)
-display = pygame.Surface((600, 600))
-display.set_colorkey((0, 0, 0))
-
-shader = pygame_shaders.Shader(size=(600, 600), display=(600, 600), 
-                        pos=(0, 0), vertex_path="shaders/vertex.txt", 
-                        fragment_path="shaders/default_frag.txt", target_texture=display)
-
 clock = pygame.time.Clock()
 
+#Create an opengl pygame Surface, this will act as our opengl context.  
+screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF)
+
+#This is our main display we will do all of our standard pygame rendering on.
+display = pygame.Surface((600, 600))
+
+#The shader we are using to communicate with the opengl context (standard pygame drawing functionality does not work on opengl displays)
+screen_shader = pygame_shaders.DefaultScreenShader(display) # <- Here we supply our default display, it's this display which will be displayed onto the opengl context via the screen_shader
+
+#This is our shader object which we can use to render the given shaders onto the screen in various ways. 
+shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, "fragment.glsl", screen) #<- Because we plan on using this shader for direct rendering (we supply the surface on which we plan to do said direct rendering in this case, screen) 
+
 while True:
-    pygame_shaders.clear((100, 100, 100)) #Fill with the color you would like in the background
-    display.fill((0, 0, 0)) #Fill with the color you set in the colorkey
+    #Fill the display with white
+    display.fill((255, 255, 255))
     
+    #Standard pygame event stuff
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            
-    pygame.draw.rect(display, (255, 0, 0), (20, 20, 20, 20)) #Draw a red rectangle to the display at (20, 20)
+
+    #Render a rect onto the display using the standard pygame method for drawing rects.
+    pygame.draw.rect(display, (255, 0, 0), (200, 200, 20, 20))
     
-    shader.render(display) #Render the display onto the OpenGL display with the shaders!
+    #Render the contents of "display" (main surface) onto the opengl screen.
+    screen_shader.render() 
+
+    #Render the shader directly onto the display.
+    shader.render_direct(pygame.Rect(0, 0, 100, 100)) 
+
+    #Update the opengl context
     pygame.display.flip()
     clock.tick(60)
 ```
-
-# Overview
-
-```pygame_shaders.Shader``` -> Initializes a new shader.
-
-```python
-pygame_shaders.Shader(shader_size: Tuple[int], window_size: Tuple[int], position: Tuple[int], vertex_shader_path: str, fragment_shader_path: str, target_texture: pygame.Surface)
-```
-
-
-```pygame_shaders.Shader.render``` -> Renders a shader to the display. If a surface is passed the shader will be rendered onto that Surface before being rendered onto the main display.
-
-```python
-pygame_shaders.Shader.render(surface: Optional[pygame.Surface])
-```
-
-
-```pygame_shaders.Shader.send``` -> Allows for uniforms to be passed to a shader.
-
-```python
-pygame_shaders.Shader.send(variable_name: str, data: List[float])
-```
-
-
-```pygame_shaders.clear``` -> Clears the display with a color.
-
-```python
-pygame_shaders.clear(color: Tuple[int])
-```
-
-
