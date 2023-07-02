@@ -35,7 +35,7 @@ class Texture:
         surf = pygame.image.frombuffer(buffer, (self.image_width, self.image_height), "RGBA")
         return surf
 
-    def bind(self, unit: int, read: bool = True, write: bool = True) -> None:
+    def bind(self, unit: int, read: bool=True, write: bool=True) -> None:
         """
         Bind the texture to a certain texture slot with given permissions
         """

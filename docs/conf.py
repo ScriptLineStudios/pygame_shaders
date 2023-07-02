@@ -22,7 +22,7 @@ copyright = '2023, ScriptLine'
 author = 'ScriptLine'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.10'
+release = '1.1.0'
 
 
 # -- General configuration ---------------------------------------------------
