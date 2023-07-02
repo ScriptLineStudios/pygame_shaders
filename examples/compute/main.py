@@ -1,7 +1,5 @@
 import pygame
 import pygame_shaders
-import math
-import random
 
 pygame.init()
 
@@ -13,10 +11,10 @@ display = pygame.Surface((600, 600))
 
 screen_shader = pygame_shaders.DefaultScreenShader(display)
 compute_shader = pygame_shaders.ComputeShader("compute.glsl")
-surf = pygame.Surface((600, 600))
-surf.fill((40, 100, 255))
-display_shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, pygame_shaders.DEFAULT_FRAGMENT_SHADER, surf)
 
+surf = pygame.Surface((600, 600))
+
+surface_shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, pygame_shaders.DEFAULT_FRAGMENT_SHADER, surf)
 
 texture = pygame_shaders.Texture(surf, compute_shader.ctx)
 dt = 0
@@ -28,15 +26,14 @@ while True:
             pygame.quit()
             running = False
 
-    texture.bind(0, True, True)    
+    texture.bind(0)    
     compute_shader.dispatch(600, 600, 1)
 
     screen_shader.render()
-    
-    display_shader.set_target_texture(texture)
-    display_shader.render_direct(pygame.Rect(0, 0, 600, 600), False)
 
+    surface_shader.set_target_texture(texture)
+    surface_shader.render_direct(pygame.Rect(0, 0, 600, 600), False)
+    
     pygame.display.flip()
 
     clock.tick()
-    # pygame.display.set_caption(f"{clock.get_fps()}")

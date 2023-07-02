@@ -30,6 +30,7 @@ Installation
    writing_shaders
    screen_shaders
    surface_shaders
+   compute_shaders
    modules
 
 Indices and tables
