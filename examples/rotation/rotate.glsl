@@ -1,15 +1,14 @@
-#version 330
+#version 330 core
 
-//Provided by the pygame_shaders library. Do not modify...
-in vec3 fragmentColor;
-in vec2 fragmentTexCoord;
-uniform sampler2D imageTexture;
+layout (location = 0) in vec3 vertexPos;
+layout (location = 1) in vec2 vertexTexCoord;
 
-//Color output of the shader
-out vec4 color;
+out vec2 fragmentTexCoord;
 
-//Note: Add your custom uniforms and variables here.
+uniform mat4 rotation;
 
-void main() {
-    color = texture(imageTexture, -fragmentTexCoord) * fragmentTexCoord.x;
+void main()
+{
+    fragmentTexCoord = vertexTexCoord;
+    gl_Position = rotation * vec4(vertexPos, 1.0);
 }

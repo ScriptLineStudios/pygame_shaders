@@ -6,42 +6,44 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-#Create an opengl pygame Surface, this will act as our opengl context.  
 screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF)
 
-#This is our main display we will do all of our standard pygame rendering on.
 display = pygame.Surface((600, 600))
 
-#The shader we are using to communicate with the opengl context (standard pygame drawing functionality does not work on opengl displays)
-screen_shader = pygame_shaders.DefaultScreenShader(display) # <- Here we supply our default display, it's this display which will be displayed onto the opengl context via the screen_shader
+screen_shader = pygame_shaders.Shader("rotate.glsl", 
+pygame_shaders.DEFAULT_FRAGMENT_SHADER, display) 
 
-#create our target surface
+img = pygame.transform.flip(pygame.image.load("../../docs/assets/pfp.png"), False, True)
+
 target_surface = pygame.Surface((200, 200))
-target_surface.blit(pygame.image.load("../../docs/assets/pfp.png"), (0, 0))
+target_surface.blit(img, (0, 0))
 
-shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, "rotate.glsl", target_surface) #<- give it to our shader
+shader = pygame_shaders.Shader("rotate.glsl", pygame_shaders.DEFAULT_FRAGMENT_SHADER, target_surface) #<- give it to our shader
+rotation = glm.mat4()
+dt = 0
 
 while True:
-    #Fill the display with white
-    display.fill((255, 255, 255))
+    shader.clear((0, 0, 0))
+    display.fill((10, 20, 30))
+
+    target_surface.blit(img, (0, 0))
     
-    #Standard pygame event stuff
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
 
-    #Render a rect onto the display using the standard pygame method for drawing rects.
-    pygame.draw.rect(display, (255, 0, 0), (200, 200, 20, 20))
-    
-    #Render the shader onto the surface object
-    target_shader = shader.render() 
+    dt += 0.05
 
-    #Blit the new (shader applied!) surface onto the display
-    display.blit(target_shader, (0, 0))
+    rotation = glm.mat4()
+    rotation = glm.rotate(rotation, dt, glm.vec3(1, 1, 1))
+    shader.send("rotation", [*rotation[0], *rotation[1], *rotation[2], *rotation[3]])
 
-    #Render the contents of "display" (main surface) onto the opengl screen.
-    screen_shader.render() 
+    rotation = glm.mat4()
+    rotation = glm.rotate(rotation, dt, glm.vec3(-2, -2, -2))
+    screen_shader.send("rotation", [*rotation[0], *rotation[1], *rotation[2], *rotation[3]])
 
-    #Update the opengl context
+    screen_shader.render_direct(pygame.Rect(0, 0, 600, 600)) 
+    shader.render_direct(pygame.Rect(0, 0, 100, 100)) 
+
     pygame.display.flip()
     clock.tick(60)
