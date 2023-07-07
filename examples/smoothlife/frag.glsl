@@ -7,7 +7,7 @@ out vec4 color;
 
 uniform sampler2D imageTexture;
 
-vec2 res = vec2(400, 400);
+vec2 res = vec2(600, 600);
 
 
 float ra = 20;
@@ -20,7 +20,7 @@ float d2 = 0.549;
 float alpha_n = 0.028;
 float alpha_m = 0.147;
 
-float dt = 1;
+float dt = 1.5;
 
 float sigma(float x, float a, float alpha)
 {

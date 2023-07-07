@@ -5,8 +5,9 @@ import pygame
 class ScreenRect:
     @staticmethod 
     def pygame_rect_to_screen_rect(rect: pygame.Rect, target_surface: pygame.Surface) -> pygame.Rect:
-        w = target_surface.get_width()
-        h = target_surface.get_height()
+        size = pygame.display.get_surface().get_size()
+        w = size[0]
+        h = size[1]
 
         return pygame.Rect(((rect.x*2) - w) + rect.w, ((rect.y*2) + h) - rect.h, rect.w, rect.h)        
 

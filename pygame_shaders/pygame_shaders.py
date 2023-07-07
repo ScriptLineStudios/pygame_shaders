@@ -77,6 +77,8 @@ class Shader:
         self.screen_texture = texture.Texture(pygame.Surface(self.target_surface.get_size()), self.ctx)
         self.framebuffer = self.ctx.simple_framebuffer(size=self.target_surface.get_size(), components=4)
 
+        self.window_size = pygame.display.get_surface().get_size()
+
     def clear(self, color: typing.Union[pygame.Color, typing.Tuple[int]]) -> None:
         """
         Clears the shader and provided 
@@ -126,7 +128,7 @@ class Shader:
         rect = screen_rect.ScreenRect.pygame_rect_to_screen_rect(rect, self.target_surface)
 
         # self.__upload_uniforms()
-        self.render_rect = screen_rect.ScreenRect((rect.w, rect.h), self.target_surface.get_size(), (rect.x, rect.y), self.ctx, self.shader)
+        self.render_rect = screen_rect.ScreenRect((rect.w, rect.h), (self.window_size[0], self.window_size[1]), (rect.x, rect.y), self.ctx, self.shader)
 
         if update_surface:
             self.screen_texture.update(self.target_surface)
