@@ -76,6 +76,7 @@ class Shader:
         
         self.screen_texture = texture.Texture(pygame.Surface(self.target_surface.get_size()), self.ctx)
         self.framebuffer = self.ctx.simple_framebuffer(size=self.target_surface.get_size(), components=4)
+        self.scope = self.ctx.scope(self.framebuffer) 
 
         self.window_size = pygame.display.get_surface().get_size()
 
@@ -83,6 +84,7 @@ class Shader:
         """
         Clears the shader and provided 
         """
+
         self.target_surface.fill(color)
         self.ctx.clear(color=(color[0]/255, color[1]/255, color[2]/255))
 
@@ -117,7 +119,7 @@ class Shader:
             elif len(data) == 2:
                 self.shader[key].value = (data[0], data[1])
 
-    def render_direct(self, rect: pygame.Rect, update_surface: bool=True) -> None:
+    def render_direct(self, rect: pygame.Rect, update_surface: bool=True, autoscale: bool=False) -> None:
         """
         Render the shader directly onto the opengl context. Instead of rendering onto the shader 
         onto a surface which we can then perform standard pygame functionality on, we instead render
@@ -125,10 +127,15 @@ class Shader:
         """
         #this rect is in the pygame coordinate system, our goal is to convert it into our custom coordinate systems
         #(0,0);pygame -> (-600, 600) in ours
-        rect = screen_rect.ScreenRect.pygame_rect_to_screen_rect(rect, self.target_surface)
+        if autoscale:
+            size = (self.target_surface.get_width(), self.target_surface.get_height())
+        else:
+            size = self.window_size
+
+        rect = screen_rect.ScreenRect.pygame_rect_to_screen_rect(rect, self.target_surface, size)
 
         # self.__upload_uniforms()
-        self.render_rect = screen_rect.ScreenRect((rect.w, rect.h), (self.window_size[0], self.window_size[1]), (rect.x, rect.y), self.ctx, self.shader)
+        self.render_rect = screen_rect.ScreenRect((rect.w, rect.h), size, (rect.x, rect.y), self.ctx, self.shader)
 
         if update_surface:
             self.screen_texture.update(self.target_surface)
@@ -147,13 +154,11 @@ class Shader:
             self.screen_texture.update(self.target_surface)
         self.screen_texture.use()
 
-        scope = self.ctx.scope(self.framebuffer)
-        with scope:
+        with self.scope:
             self.framebuffer.use()
             self.render_rect.vao.render()
             surf = pygame.image.frombuffer(self.framebuffer.read(), self.target_surface.get_size(), "RGB")
-        scope.release()
-        return surf
+        return pygame.transform.flip(surf, False, True)
 
 class ComputeShader:
     """
@@ -195,4 +200,4 @@ class DefaultScreenShader(Shader):
         Render the display onto the OpenGL context
         """
 
-        super().render_direct(pygame.Rect(0, 0, self.target_surface.get_width(), self.target_surface.get_height()))
+        super().render_direct(pygame.Rect(0, 0, self.target_surface.get_width(), self.target_surface.get_height()), autoscale=True)

@@ -11,5 +11,5 @@ out vec4 color;
 //Note: Add your custom uniforms and variables here.
 
 void main() {
-    color = texture(imageTexture, -fragmentTexCoord);
+    color = texture(imageTexture, fragmentTexCoord) * 0.5 - fragmentTexCoord.x / 2;
 }

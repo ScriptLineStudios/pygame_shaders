@@ -9,7 +9,7 @@ clock = pygame.time.Clock()
 
 screen = pygame.display.set_mode((600, 600), pygame.OPENGL | pygame.DOUBLEBUF)
 
-display = pygame.Surface((100, 100))
+display = pygame.Surface((600, 600))
 
 img = pygame.Surface((100, 100))
 for y in range(100):  
@@ -49,12 +49,12 @@ while running:
     #If i = 0 then we set surface 1 as the target, perfom the shader render and store the resulting surface in slot 0 we then flip i (i = 1) and blit the new i onto display. 
 
     #Flip i
-    if count % 20 == 0:
-        i = 1 - i
+    i = 1 - i
     count += 1
 
     #display the outputted shader onto the display
-    display.blit(shader_res[1], (0, 0))
+    display.blit(pygame.transform.scale(shader_res[1], (600, 600)), (0, 0))
+    # pygame.draw.rect(display, (255, 0, 0), (0, 0, 600, 600))
     
     #Render the contents of display onto the opengl display
     screen_shader.render()
@@ -64,3 +64,4 @@ while running:
     
     #Tick the clock
     clock.tick()
+    pygame.display.set_caption(f"{clock.get_fps()}")

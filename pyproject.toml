@@ -1,10 +1,3 @@
-[project]
-name = "pygame_shaders"
-description = "a library to easily integrate shaders into your new or existing pygame projects "
-version = "2.0.0"
-authors = [
-    {name = "ScriptLine Studios", email = "scriptlinestudio@protonmail.com"}
-]
 dependencies = [
     "numpy",
     "moderngl",
