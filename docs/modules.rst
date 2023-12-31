@@ -1,7 +1,7 @@
 API Reference
 ==============
 
-.. toctree::
-   :maxdepth: 4
+.. autosummary::
+   :toctree: generated
 
    pygame_shaders
