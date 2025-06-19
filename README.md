@@ -53,3 +53,7 @@ while True:
     pygame.display.flip()
     clock.tick(60)
 ```
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=ScriptLineStudios/pygame_shaders&type=Date)](https://www.star-history.com/#ScriptLineStudios/pygame_shaders&Date)
