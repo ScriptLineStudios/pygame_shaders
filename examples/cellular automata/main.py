@@ -63,5 +63,5 @@ while running:
     pygame.display.flip()
     
     #Tick the clock
-    clock.tick()
+    clock.tick(60)
     pygame.display.set_caption(f"{clock.get_fps()}")

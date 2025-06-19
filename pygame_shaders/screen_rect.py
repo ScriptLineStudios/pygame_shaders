@@ -48,7 +48,7 @@ class ScreenRect:
             self.vao = ctx.vertex_array(program, [
                 (self.vbo, '2f 2f', 'vertexPos', 'vertexTexCoord'),
             ])
-        except moderngl.error.Error:
+        except:
             self.vbo = ctx.buffer(self.vertices)
             self.vao = ctx.vertex_array(program, [
                 (self.vbo, '2f', 'vertexPos'),

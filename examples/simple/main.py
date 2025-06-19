@@ -15,7 +15,7 @@ font = pygame.font.SysFont("Arial", 32)
 
 time = 0
 while True:
-    time += 1/60
+    time += 1
     display.fill((0, 0, 0))
 
     for event in pygame.event.get():
@@ -23,13 +23,12 @@ while True:
             raise SystemExit
 
     text = font.render("Hello World! - This font is being modified by a shader", False, "white")
-    display.blit(text, (40, 600))
+    display.blit(text, (40 + time, 600))
 
     display.blit(image, (100, 100))
 
     shader.send("time", time)
 
     shader.render_direct(pygame.Rect(0, 0, 1000, 800))
-
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick()

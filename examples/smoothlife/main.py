@@ -21,7 +21,6 @@ for y in range(400):
 
 shader_res = [img, img]
 bg_shader = pygame_shaders.Shader(pygame_shaders.DEFAULT_VERTEX_SHADER, "frag.glsl", shader_res[0])
-
 screen_shader = pygame_shaders.DefaultScreenShader(display)
 
 running = True

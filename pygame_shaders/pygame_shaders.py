@@ -21,18 +21,17 @@ void main()
 }
 """
 
+
 DEFAULT_FRAGMENT_SHADER = """
 #version 330 core
 
 in vec3 fragmentColor;
 in vec2 fragmentTexCoord;
 
-out vec4 color;
-
 uniform sampler2D imageTexture;
 
 void main() {
-    color = texture(imageTexture, fragmentTexCoord);
+    gl_FragColor = vec4(texture2D(imageTexture, fragmentTexCoord).xyz, 1.0);
 }
 """
 
@@ -150,6 +149,17 @@ class Shader:
 
         # self.upload_uniforms()
 
+        if update_surface:
+            self.screen_texture.update(self.target_surface)
+        self.screen_texture.use()
+
+        with self.scope:
+            self.framebuffer.use()
+            self.render_rect.vao.render()
+            surf = pygame.image.frombuffer(self.framebuffer.read(), self.target_surface.get_size(), "RGB")
+        return pygame.transform.flip(surf, False, True)
+
+    def to_surface(self, update_surface: bool=True):
         if update_surface:
             self.screen_texture.update(self.target_surface)
         self.screen_texture.use()
