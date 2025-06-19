@@ -100,10 +100,7 @@ class Shader:
 
         # self.screen_texture.texture.release()
         self.target_surface = surface
-        self.render_rect = screen_rect.ScreenRect(self.target_surface.get_size(),self.target_surface.get_size(), (0, 0), self.ctx, self.shader)
-        
-        self.screen_texture = texture.Texture(pygame.Surface(self.target_surface.get_size()), self.ctx)
-        self.framebuffer = self.ctx.simple_framebuffer(size=self.target_surface.get_size(), components=4)
+        # self.screen_texture = texture.Texture(pygame.Surface(self.target_surface.get_size()), self.ctx)
 
     def set_target_texture(self, texture: texture.Texture) -> None:
         """
@@ -159,11 +156,18 @@ class Shader:
         with self.scope:
             self.framebuffer.use()
             self.render_rect.vao.render()
-            surf = pygame.image.frombuffer(
-                self.framebuffer.read(components=4, alignment=1),
-                self.target_surface.get_size(),
-                "RGBA"
-            )
+            surf = pygame.image.frombuffer(self.framebuffer.read(), self.target_surface.get_size(), "RGB")
+        return pygame.transform.flip(surf, False, True)
+
+    def to_surface(self, update_surface: bool=True):
+        if update_surface:
+            self.screen_texture.update(self.target_surface)
+        self.screen_texture.use()
+
+        with self.scope:
+            self.framebuffer.use()
+            self.render_rect.vao.render()
+            surf = pygame.image.frombuffer(self.framebuffer.read(), self.target_surface.get_size(), "RGB")
         return pygame.transform.flip(surf, False, True)
 
 class ComputeShader:
